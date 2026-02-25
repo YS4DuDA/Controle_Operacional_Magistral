@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Magistral - Cadastro de Produtor</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="background-color: #0f264a; display: flex; align-items: center; justify-content: center; height: 100vh;">
+    <div class="card p-5 border-0 shadow-lg" style="max-width: 480px; width: 90%; border-top: 8px solid #e31e24; border-radius: 0;">
+        <div class="text-center mb-4">
+            <h4 class="fw-bold" style="color: #0f264a;">MAGISTRAL</h4>
+            <p class="text-muted small fw-bold">NOVO FORNECEDOR</p>
+        </div>
+        <form method="POST">
+            <div class="mb-3"><label class="small fw-bold">NOME DO TITULAR</label><input type="text" name="nome" class="form-control" required></div>
+            <div class="mb-3"><label class="small fw-bold">NOME DA PROPRIEDADE</label><input type="text" name="propriedade" class="form-control" required></div>
+            <div class="mb-4"><label class="small fw-bold">LOCALIDADE / CIDADE</label><input type="text" name="localidade" class="form-control" required></div>
+            <button type="submit" class="btn btn-lg w-100 text-white fw-bold shadow" style="background-color: #e31e24; border-radius: 0;">SALVAR CADASTRO</button>
+        </form>
+    </div>
+</body>
+</html>
