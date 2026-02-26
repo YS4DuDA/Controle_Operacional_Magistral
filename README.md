@@ -42,7 +42,5 @@ Plaintext
 └── static/             # Ativos estáticos (Logos e CSS)
     └── uploads/        # Repositório de Notas Fiscais (Armazenamento local)
 
-
 Desenvolvedora:
 Maysa Eduarda Lada
-Maysa Eduarda
