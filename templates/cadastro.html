@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Magistral - Notificação de Embarque</title>
+    <title>Magistral - Embarque</title>
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -10,79 +10,42 @@
     <div style="background-color: #0f264a; padding: 25px; border-bottom: 6px solid #e31e24;" class="text-center mb-5 shadow">
         <img src="{{ url_for('static', filename='logo.png') }}" height="45">
     </div>
-
     <div class="container">
-        <div class="card p-4 mx-auto shadow border-0" style="max-width: 500px; border-radius: 0;">
+        <div class="card p-4 mx-auto shadow-sm border-0" style="max-width: 500px; border-radius: 0;">
             {% with messages = get_flashed_messages() %}
-              {% if messages %}
-                {% for message in messages %}
-                  <div class="alert alert-danger fw-bold small rounded-0">{{ message }}</div>
-                {% endfor %}
-              {% endif %}
+              {% if messages %}{% for message in messages %}<div class="alert alert-danger small fw-bold">{{ message }}</div>{% endfor %}{% endif %}
             {% endwith %}
-
             <h5 class="fw-bold text-center mb-4" style="color: #0f264a;">NOTIFICAÇÃO DE EMBARQUE</h5>
-            <hr style="border: 2px solid #e31e24; width: 40px; margin: -15px auto 25px auto; opacity: 1;">
-
             <form method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
-                    <label class="fw-bold small">NOME DA PROPRIEDADE</label>
-                    <input list="lista_produtores" name="nome_propriedade" class="form-control" placeholder="Digite o nome..." required>
-                    <datalist id="lista_produtores">
-                        {% for p in produtores %}<option value="{{ p.nome_propriedade }}">{% endfor %}
-                    </datalist>
-                    <div class="text-end mt-2"><a href="/registrar_produtor" class="small text-danger fw-bold">+ CADASTRAR NOVA PROPRIEDADE</a></div>
+                    <label class="fw-bold small">PROPRIEDADE</label>
+                    <input list="lista_produtores" name="nome_propriedade" class="form-control" placeholder="Buscar..." required>
+                    <datalist id="lista_produtores">{% for p in produtores %}<option value="{{ p.nome_propriedade }}">{% endfor %}</datalist>
+                    <div class="text-end mt-2"><a href="/registrar_produtor" class="small text-danger fw-bold">+ CADASTRAR PROPRIEDADE</a></div>
                 </div>
-
                 <div class="row mb-3">
-                    <div class="col-6">
-                        <label class="fw-bold small">ESPÉCIE</label>
+                    <div class="col-6"><label class="fw-bold small">ESPÉCIE</label>
                         <select name="especie" id="especie" class="form-select">
-                            <option value="Bovino">Bovino</option>
-                            <option value="Suino">Suíno</option>
-                            <option value="Ovino">Ovino</option>
+                            <option value="Bovino">Bovino</option><option value="Suino">Suíno</option><option value="Ovino">Ovino</option>
                         </select>
                     </div>
-                    
-                    <div class="col-6" id="container-categoria">
-                        <label class="fw-bold small">CATEGORIA</label>
-                        <select name="categoria" class="form-select">
-                            <option value="Boi">Boi</option>
-                            <option value="Novilha">Novilha</option>
-                            <option value="Vaca">Vaca</option>
-                            <option value="Geral">Geral</option>
-                        </select>
+                    <div class="col-6" id="container-categoria"><label class="fw-bold small">CATEGORIA</label>
+                        <select name="categoria" class="form-select"><option>Boi</option><option>Novilha</option><option>Vaca</option></select>
                     </div>
                 </div>
-
                 <div class="mb-3">
-                    <label class="fw-bold small">QUANTIDADE DE CABEÇAS</label>
-                    <input type="number" name="quantidade" class="form-control" required>
+                    <label class="fw-bold small">QUANTIDADE (CABEÇAS)</label>
+                    <input type="text" name="quantidade" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
                 </div>
-
-                <div class="mb-4 bg-light p-3 border">
-                    <label class="fw-bold small text-muted">NOTA FISCAL (OPCIONAL)</label>
-                    <input type="file" name="nota_fiscal" class="form-control">
-                </div>
-
+                <div class="mb-4 bg-light p-3 border"><label class="fw-bold small text-muted">NOTA FISCAL</label><input type="file" name="nota_fiscal" class="form-control"></div>
                 <button type="submit" class="btn btn-lg w-100 text-white fw-bold shadow-sm" style="background-color: #e31e24; border-radius: 0;">ENVIAR NOTIFICAÇÃO</button>
             </form>
         </div>
     </div>
-
     <script>
-        const campoEspecie = document.getElementById('especie');
-        const containerCategoria = document.getElementById('container-categoria');
-
-        campoEspecie.addEventListener('change', function() {
-            // Se for Suino ou Ovino, esconde a categoria. Se for Bovino, mostra.
-            if (this.value === 'Suino' || this.value === 'Ovino') {
-                containerCategoria.style.visibility = 'hidden';
-            } else {
-                containerCategoria.style.visibility = 'visible';
-            }
+        document.getElementById('especie').addEventListener('change', function() {
+            document.getElementById('container-categoria').style.visibility = (this.value === 'Suino' || this.value === 'Ovino') ? 'hidden' : 'visible';
         });
     </script>
-
 </body>
 </html>
