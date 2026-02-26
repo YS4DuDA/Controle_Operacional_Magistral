@@ -1,6 +1,3 @@
-O Gemini disse
-Este novo README.md foi estruturado para refletir a maturidade técnica do seu projeto após as atualizações. Ele destaca não apenas o código, mas a solução de negócio para a indústria, o que é fundamental para sua avaliação no SENAI e para seu perfil como Trainee de TI na JBS Seara.
-
 Magistral - Sistema de Gestão Logística e Operacional Industrial
 Descrição do Projeto
 Este software é o resultado do Trabalho de Conclusão de Curso (TCC) desenvolvido no SENAI Campo Mourão - PR. O projeto surgiu como resposta a um desafio real do setor industrial frigorífico: a necessidade de integrar a logística de recepção de gado com a programação de abate, garantindo conformidade com normas de bem-estar animal e agilidade na comunicação entre setores.
