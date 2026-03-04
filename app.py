@@ -66,6 +66,16 @@ def registrar_produtor():
             return render_template('registrar_produtor.html')
 
         db = get_db()
+        
+        existente = db.execute('''SELECT * FROM produtores 
+                                  WHERE cnpj = ? OR LOWER(nome_propriedade) = ?''', 
+                               (cnpj, prop.lower())).fetchone()
+        
+        if existente:
+            db.close()
+            flash('ERRO: CNPJ OU NOME DA PROPRIEDADE JÁ CADASTRADOS NO SISTEMA.')
+            return render_template('registrar_produtor.html')
+
         db.execute('INSERT INTO produtores (nome_completo, nome_propriedade, localidade, cnpj) VALUES (?,?,?,?)', 
                    (nome, prop, loc, cnpj))
         db.commit()
@@ -97,8 +107,18 @@ def cadastro():
         fuso_br = pytz.timezone('America/Sao_Paulo')
         hor_notif = datetime.now(fuso_br).strftime('%Y-%m-%d %H:%M:%S')
 
+        especie = request.form.get('especie', 'Bovino')
+        
+        if especie == 'Suino':
+            categoria = 'Suíno'
+        elif especie == 'Ovino':
+            categoria = 'Ovino'
+        else:
+            categoria = request.form.get('categoria')
+            if not categoria:
+                categoria = 'Boi' 
         db.execute('''INSERT INTO lotes (produtor_id, especie, categoria, quantidade, status, horario_notificacao, nota_fiscal) 
-                      VALUES (?,?,?,?,?,?,?)''', (produtor['id'], request.form['especie'], request.form['categoria'], qtd, 'Em Trânsito', hor_notif, filename))
+                      VALUES (?,?,?,?,?,?,?)''', (produtor['id'], especie, categoria, qtd, 'Em Trânsito', hor_notif, filename))
         db.commit()
         db.close()
         return redirect(url_for('sucesso'))
@@ -123,12 +143,13 @@ def confirmar_chegada(lote_id):
 def monitor_producao():
     db = get_db()
     fuso_br = pytz.timezone('America/Sao_Paulo')
+    agora = datetime.now(fuso_br).strftime('%Y-%m-%d %H:%M:%S')
     hoje = datetime.now(fuso_br).strftime('%Y-%m-%d')
     lotes_hoje = db.execute('''SELECT l.*, p.nome_propriedade FROM lotes l JOIN produtores p ON l.produtor_id = p.id 
                                WHERE l.horario_chegada_real LIKE ? ORDER BY l.liberacao ASC''', (hoje + '%',)).fetchall()
     total_gado = sum(lote['quantidade'] for lote in lotes_hoje)
     db.close()
-    return render_template('producao.html', lotes=lotes_hoje, total=total_gado, data=hoje)
+    return render_template('producao.html', lotes=lotes_hoje, total=total_gado, data=hoje, agora=agora)
 
 @app.route('/sucesso')
 def sucesso():

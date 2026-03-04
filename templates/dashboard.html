@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="30">
+    <meta http-equiv="refresh" content="5">
     <title>Magistral - Monitor Logística</title>
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -19,7 +19,7 @@
 </head>
 <body>
     <nav class="navbar p-3 shadow-sm">
-        <div class="container-fluid d-flex align-items-center">
+        <div class="container-fluid justify-content-start align-items-center">
             <img src="{{ url_for('static', filename='logo.png') }}" height="35" class="me-3">
             <span class="h4 fw-bold m-0 text-white">MONITOR LOGÍSTICO | MAGISTRAL</span>
         </div>
@@ -48,7 +48,8 @@
                         <span class="label-tec">EM REPOUSO</span>
                         {% if lote.nota_fiscal %}<span class="badge bg-dark" style="border-radius: 0;">NF OK</span>{% endif %}
                     </div>
-                    <h5 class="fw-bold mb-1" style="color: var(--navy);">{{ lote.nome_propriedade }}</h5>
+                    <h5 class="fw-bold mb-0" style="color: var(--navy);">{{ lote.nome_propriedade }}</h5>
+                    <p class="small text-muted mb-3">{{ lote.quantidade }} CABEÇAS | {{ lote.categoria }}</p>
                     <div class="row border-top pt-3">
                         <div class="col-6 border-end"><span class="label-tec">ENTRADA</span><div class="fw-bold">{{ lote.horario_chegada_real[11:16] }}</div></div>
                         <div class="col-6"><span class="label-tec text-danger">LIBERAÇÃO</span><div class="fw-bold text-danger">{{ lote.liberacao[11:16] }}</div></div>
